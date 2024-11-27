@@ -1,0 +1,62 @@
+﻿@model IEnumerable<Netwise.Models.CatFactsResponseModel>
+@{
+    ViewData["Title"] = "Find cat facts";
+}
+
+@{
+    if (TempData["error"] != null && (bool)TempData["error"])
+    {
+        <div class="alert alert-danger" role="alert">
+            Ooops! Something went wrong!
+        </div>
+    }
+}
+
+<div class="text-center">
+    <h1 class="display-4">Find cat facts</h1>
+</div>
+<form asp-action="FindCatFact" method="post">
+    <label>Input max length of a fact:</label>
+    <input class="mt-4" id="maxLength" name="maxLength" type="number" placeholder="Can be null" value="@TempData["maxLength"]"/>
+    <button class="btn btn-primary" id="btnSubmit">Get fact</button>
+</form>
+<br />
+<br />
+<div style="display: flex; justify-content: space-between; align-items: center;">
+    <h1 class="display-4" style="margin-bottom: 0;">Facts</h1>
+    <div style="display: flex; gap: 10px;">
+        <form asp-action="SaveToFile" asp-controller="Home">
+            <button class="btn btn-primary" style="height: 100%;">Download table to txt file</button>
+        </form>
+        <form asp-action="Reset" asp-controller="Home">
+            <button class="btn btn-danger" style="height: 100%;">Reset</button>
+        </form>
+    </div>
+</div>
+<div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Fact
+                </th>
+                <th>
+                    Length
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                foreach (var i in Model)
+                {
+                    <tr>
+                        <td>@i.fact</td>
+
+                        <td>@i.length</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+
